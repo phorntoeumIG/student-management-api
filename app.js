@@ -17,7 +17,7 @@ app.set('views', path.join(__dirname, 'views'));
 
 
 app.get('/dashboard', (req, res) => {
-  res.render('dashboard/dashboard', { name: 'Admin' });
+  res.render('dashboard', { name: 'Admin' });
 });
 
 

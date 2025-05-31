@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bootstrap Sidebar Dashboard</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <style>
+    body {
+      min-height: 100vh;
+      background-color: #f8f9fa;
+    }
+
+    .sidebar {
+      width: 250px;
+      min-height: 100vh;
+      background-color: #212529;
+    }
+
+    .sidebar .nav-link {
+      color: #adb5bd;
+      transition: all 0.2s;
+    }
+
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active {
+      background-color: #0d6efd;
+      color: #fff;
+    }
+
+    .sidebar .nav-link i {
+      margin-right: 10px;
+    }
+
+    .brand {
+      font-size: 1.5rem;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+<div class="d-flex">
+  <!-- Sidebar -->
+  <nav class="sidebar d-flex flex-column p-3">
+    <div class="brand mb-4 text-center">
+      <i class="bi bi-speedometer2"></i> Dashboard
+    </div>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item">
+        <a href="#" class="nav-link active">
+          <i class="bi bi-list-ul"></i> Student List
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link">
+          <i class="bi bi-person-circle"></i> Profile
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link">
+          <i class="bi bi-gear"></i> Settings
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link">
+          <i class="bi bi-bar-chart-line"></i> Reports
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="flex-grow-1 p-4">
+    <h1 class="bg-primary text-white p-3 rounded m-0">Welcome</h1>
+
+    <!-- Student Table -->
+    <div class="mt-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="m-0">Student List</h4>
+        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#createStudentModal" style="padding: 10px;">
+          + Create
+        </button>
+      </div>
+
+      <!-- Table list Students -->
+      <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Sok</td>
+            <td>Dara</td>
+            <td>Female</td>
+            <td>dara@example.com</td>
+            <td>09876544</td>
+            <td>
+              <button class="btn btn-sm btn-warning">Edit</button>
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Sok</td>
+            <td>Dara</td>
+            <td>Female</td>
+            <td>dara@example.com</td>
+            <td>09876544</td>
+            <td>
+              <button class="btn btn-sm btn-warning">Edit</button>
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </td>
+          </tr>
+          <!-- Add more rows as needed -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Form Create Student -->
+    <div class="modal fade" id="createStudentModal" tabindex="-1" aria-labelledby="createStudentModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded">
+          <form>
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="createStudentModalLabel">Create Student</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+    
+            <!-- Create Student Form -->
+            <div class="modal-body bg-light">
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <label for="firstName" class="form-label fw-semibold text-primary">First Name</label>
+                  <input type="text" class="form-control shadow-sm" id="firstName" name="firstName" placeholder="Enter first name" required>
+                </div>
+    
+                <div class="col-md-6">
+                  <label for="lastName" class="form-label fw-semibold text-primary">Last Name</label>
+                  <input type="text" class="form-control shadow-sm" id="lastName" name="lastName" placeholder="Enter last name" required>
+                </div>
+    
+                <div class="col-md-6">
+                  <label for="gender" class="form-label fw-semibold text-primary">Gender</label>
+                  <select class="form-select shadow-sm" id="gender" name="gender" required>
+                    <option value="" selected disabled>Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                  </select>
+                </div>
+    
+                <div class="col-md-6">
+                  <label for="email" class="form-label fw-semibold text-primary">Email</label>
+                  <input type="email" class="form-control shadow-sm" id="email" name="email" placeholder="Enter email" required>
+                </div>
+    
+                <div class="col-md-6">
+                  <label for="phone" class="form-label fw-semibold text-primary">Phone</label>
+                  <input type="tel" class="form-control shadow-sm" id="phone" name="phone" placeholder="Enter phone number" required>
+                </div>
+              </div>
+            </div>
+    
+            <div class="modal-footer bg-light">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-success px-4">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+
+  </div>
+</div>
+
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
