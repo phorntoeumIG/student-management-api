@@ -17,18 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      role: {
-        type: DataTypes.STRING,
+      isLogout: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: "user",
-      },
-      accessToken: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
-      refreshToken: {
-        type: DataTypes.STRING,
-        allowNull: true,
+        defaultValue: false,
       },
     },
     {

@@ -4,8 +4,16 @@
   "description": "nd Web API using Express.js and Node.js  for School project.",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "npm run db:migrate && npm run db:seed && nodemon app.js",
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:migrate": "sequelize-cli db:migrate",
+    "db:migrate:undo": "sequelize-cli db:migrate:undo",
+    "db:migrate:undo:all": "sequelize-cli db:migrate:undo:all",
+    "db:migrate:generate": "sequelize-cli migration:generate",
+    "db:seed": "sequelize-cli db:seed:all",
+    "db:seed:undo": "sequelize-cli db:seed:undo:all",
+    "db:seed:generate": "sequelize-cli seed:generate"
   },
   "keywords": [],
   "author": "",

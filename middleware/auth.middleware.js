@@ -4,6 +4,7 @@ const Users = db.Users;
 const config = require("../config");
 
 const skipAuthRoutes = ["/auth/login"];
+const unauthorizedMessage = "Invalid or expired token";
 const auth = async (req, res, next) => {
   if (skipAuthRoutes.includes(req.path)) {
     return next();
@@ -17,16 +18,18 @@ const auth = async (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, config.jwt.access.secret);
-    const user = await Users.findByPk(decoded.id);
+    const user = await Users.findOne({
+      where: { id: decoded.id, isLogout: false },
+    });
 
     if (!user) {
-      return res.status(401).json({ error: "User not found" });
+      return res.status(401).json({ error: unauthorizedMessage });
     }
     req.user = user;
     next();
   } catch (error) {
     console.error("Auth error:", error);
-    return res.status(401).json({ error: "Invalid or expired token" });
+    return res.status(401).json({ error: unauthorizedMessage });
   }
 };
 

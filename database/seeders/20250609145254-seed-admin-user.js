@@ -1,8 +1,8 @@
 "use strict";
 
-/** @type {import('sequelize-cli').Migration} */
 const bcrypt = require("bcryptjs");
 
+/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     try {
@@ -16,16 +16,26 @@ module.exports = {
 
       if (existingAdmin.length === 0) {
         // Hash the password
-        const hashedPassword = await bcrypt.hash("Admin@2025", 10);
+        const hashedPassword = await queryInterface.sequelize.query(
+          `SELECT BINARY(?) as hashed`,
+          {
+            replacements: [await bcrypt.hash("Admin@2025", 10)],
+            type: queryInterface.sequelize.QueryTypes.SELECT,
+          }
+        );
 
         // Create admin user
-        await queryInterface.bulkInsert("users", [
-          {
-            email: "admin@gmail.com",
-            password: hashedPassword,
-            role: "admin",
-          },
-        ]);
+        await queryInterface.bulkInsert(
+          "users",
+          [
+            {
+              email: "admin@gmail.com",
+              password: hashedPassword[0].hashed,
+              isLogout: false,
+            },
+          ],
+          {}
+        );
 
         console.log("Admin user created successfully");
       } else {
@@ -38,18 +48,13 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    try {
-      await queryInterface.bulkDelete(
-        "users",
-        {
-          email: "admin@example.com",
-        },
-        {}
-      );
-      console.log("Admin user removed");
-    } catch (error) {
-      console.error("Error removing admin user:", error);
-      throw error;
-    }
+    // Remove admin user
+    await queryInterface.bulkDelete(
+      "users",
+      {
+        email: "admin@gmail.com",
+      },
+      {}
+    );
   },
 };

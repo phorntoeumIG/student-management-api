@@ -20,19 +20,10 @@ app.use(require("./middleware/response.middleware"));
 
 (async () => {
   try {
-    const queryInterface = dbModel.sequelize.getQueryInterface();
-    const seeders = require("./database/seeders");
-
-    for (const seederFile of Object.keys(seeders)) {
-      console.log(`Running seeder: ${seederFile}`);
-      const seeder = seeders[seederFile];
-      await seeder.up(queryInterface, dbModel.sequelize);
-    }
-
-    console.log("Database initialization complete");
+    await dbModel.sequelize.authenticate();
+    console.log("Database connection established");
   } catch (error) {
-    console.error("Database initialization error:", error);
-    console.error("Stack trace:", error.stack);
+    console.error("Database connection error:", error);
     process.exit(1);
   }
 })();

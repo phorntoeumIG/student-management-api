@@ -1,93 +1,56 @@
-const db = require("../models");
-const Students = db.Students;
-const { ResourceNotFound } = require("../exceptions/exception-handler");
+const studentService = require("../services/student.service");
 
-exports.getStudents = async (req, res) => {
+exports.getStudents = async (req, res, next) => {
   try {
-    const students = await Students.findAll();
+    const students = await studentService.getStudents();
     res.success(students);
   } catch (error) {
-    res.error(500);
+    return next(error);
   }
 };
 
 // POST create student
-exports.createStudent = async (req, res) => {
-  const { firstName, lastName, gender, email, phone, dateOfBirth } = req.body;
+exports.createStudent = async (req, res, next) => {
   try {
-    const dob = new Date(dateOfBirth);
-    const student = await Students.create({
-      firstName,
-      lastName,
-      gender,
-      email,
-      phone,
-      dateOfBirth: dob,
-    });
+    const student = await studentService.createStudent(req.body);
     res.success(student);
-  } catch (err) {
-    console.error("Failed to insert data:", err);
-    res.error(500);
+  } catch (error) {
+    console.error("Failed to create student:", error);
+    return next(error);
   }
 };
 
 // GET student by ID
 exports.getStudentById = async (req, res, next) => {
   try {
-    const studentId = req.params.id;
-    const student = await Students.findOne({ where: { id: studentId } });
-    if (!student) {
-      return next(new ResourceNotFound("student", req.params.id));
-    }
+    const student = await studentService.getStudentById(req.params.id);
     res.success(student);
-  } catch (exception) {
-    next(exception);
+  } catch (error) {
+    return next(error);
   }
 };
 
 // PUT update student
 exports.updateStudent = async (req, res, next) => {
-  const { firstName, lastName, gender, email, phone, dateOfBirth } = req.body;
-  const { id } = req.params;
   try {
-    const student = await Students.findByPk(id);
-
-    if (!student) {
-      return next(new ResourceNotFound("student", req.params.id));
-    }
-
-    const dob = new Date(dateOfBirth);
-    const updatedStudent = await student.update({
-      firstName,
-      lastName,
-      gender,
-      email,
-      phone,
-      dateOfBirth: dob,
-    });
-
+    const updatedStudent = await studentService.updateStudent(
+      req.params.id,
+      req.body
+    );
     res.success(updatedStudent);
   } catch (error) {
     console.error("Failed to update student:", error);
-    res.error(500);
+    return next(error);
   }
 };
 
 // DELETE student
 exports.deleteStudent = async (req, res, next) => {
-  const { id } = req.params;
-
   try {
-    const student = await Students.findByPk(id);
-
-    if (!student) {
-      return next(new ResourceNotFound("student", req.params.id));
-    }
-    await student.destroy();
-    res.status(204).send();
-  } catch (err) {
-    console.log(err);
-    console.error("Failed to delete student:", err);
-    res.error(500);
+    await studentService.deleteStudent(req.params.id);
+    res.success();
+  } catch (error) {
+    console.error("Failed to delete student:", error);
+    return next(error);
   }
 };

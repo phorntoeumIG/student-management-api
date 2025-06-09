@@ -1,7 +1,7 @@
 class ValidationError extends Error {
   constructor(message, errors) {
-    super(message || 'Validation failed');
-    this.name = 'ValidationError';
+    super(message || "Validation failed");
+    this.name = "ValidationError";
     this.statusCode = 400;
     this.errors = errors;
   }
@@ -9,8 +9,8 @@ class ValidationError extends Error {
 
 class UnauthorizedError extends Error {
   constructor(message) {
-    super(message || 'Unauthorized');
-    this.name = 'UnauthorizedError';
+    super(message || "Unauthorized");
+    this.name = "UnauthorizedError";
     this.statusCode = 401;
   }
 }
@@ -18,7 +18,7 @@ class UnauthorizedError extends Error {
 class ResourceNotFound extends Error {
   constructor(resourceName, resourceId) {
     super(`Resource ${resourceName} with identifier ${resourceId} not found.`);
-    this.name = 'ResourceNotFound';
+    this.name = "ResourceNotFound";
     this.statusCode = 404;
     Error.captureStackTrace(this, this.constructor);
   }
@@ -26,24 +26,24 @@ class ResourceNotFound extends Error {
 
 class ForbiddenError extends Error {
   constructor(message) {
-    super(message || 'Forbidden');
-    this.name = 'ForbiddenError';
+    super(message || "Forbidden");
+    this.name = "ForbiddenError";
     this.statusCode = 403;
   }
 }
 
 class ConflictError extends Error {
   constructor(message) {
-    super(message || 'Conflict');
-    this.name = 'ConflictError';
+    super(message || "Conflict");
+    this.name = "ConflictError";
     this.statusCode = 409;
   }
 }
 
 class RateLimitExceeded extends Error {
   constructor(message) {
-    super(message || 'Rate limit exceeded');
-    this.name = 'RateLimitExceeded';
+    super(message || "Rate limit exceeded");
+    this.name = "RateLimitExceeded";
     this.statusCode = 429;
   }
 }
@@ -54,5 +54,5 @@ module.exports = {
   UnauthorizedError,
   ForbiddenError,
   ConflictError,
-  RateLimitExceeded
+  RateLimitExceeded,
 };

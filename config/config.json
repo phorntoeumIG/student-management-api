@@ -1,8 +1,8 @@
 {
   "development": {
     "username": "root",
-    "password": "root",
-    "port": 3307,
+    "password": "",
+    "port": 3306,
     "database": "student_management",
     "host": "localhost",
     "dialect": "mysql"

@@ -16,11 +16,7 @@ router.post(
     loginValidator.loginValidator,
     authenticationController.login
   )
-).route.requiredRole = "user";
-router.post(
-  "/auth/logout",
-  auth,
-  authenticationController.logout
-).route.requiredRole = "user";
+);
+router.post("/auth/logout", auth, authenticationController.logout);
 
 module.exports = router;
