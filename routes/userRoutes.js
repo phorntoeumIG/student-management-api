@@ -1,8 +1,0 @@
-const express = require('express');
-const router = express.Router();
-
-router.get('/userlist', function(req, res){
-    res.send("User List");
-})
-
-module.exports = router;
