@@ -26,6 +26,11 @@ app.use(require("./middleware/response.middleware"));
 
     const queryInterface = dbModel.sequelize.getQueryInterface();
     const seeders = require("./database/seeders");
+    const migrations = require("./database/migrations");
+    for (const migrationFile of Object.keys(migrations)) {
+      const migration = migrations[migrationFile];
+      await migration.up(queryInterface, dbModel.sequelize);
+    }
 
     for (const seederFile of Object.keys(seeders)) {
       const seeder = seeders[seederFile];
