@@ -57,16 +57,18 @@ exports.updateUser = async (req, res, next) => {
   try {
     const { id } = req.params;
     const updates = req.body;
-    const user = await Users.findByPk(id, {
-      attributes: { exclude: ["password"] },
+
+    const [updated] = await Users.update(updates, {
+      where: { id: id },
+      returning: true,
+      plain: true,
     });
-    if (!user) {
-      next(new ResourceNotFound("user", id));
-      return;
+
+    if (!updated) {
+      next(new ResourceNotFound("user", req.params.id));
     }
 
-    const updatedUser = await user.update(updates);
-    return res.success(updatedUser);
+    return res.success(updated);
   } catch (error) {
     console.error("Update user error:", error);
     return res.error(500);

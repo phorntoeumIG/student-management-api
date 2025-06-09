@@ -1,18 +1,8 @@
 const express = require("express");
-const session = require("express-session");
 const path = require("path");
 
 const app = express();
 const PORT = 3000;
-
-// Session middleware (must be before routes using req.session)
-app.use(
-  session({
-    secret: "student1234",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
 
 // DB and models
 const dbModel = require("./models");
@@ -25,21 +15,33 @@ const { consoleLogger } = require("./middleware/logger.middleware");
 app.use(consoleLogger);
 
 // Custom middlewares
+app.use(require("./middleware/auth.middleware"));
 app.use(require("./middleware/response.middleware"));
 
-// View engine setup (if you use views)
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+// Sync database and run seeds
+(async () => {
+  try {
+    await dbModel.sequelize.sync();
+    console.log("Database synced");
 
-// Sync database
-dbModel.sequelize
-  .sync()
-  .then(() => console.log("Database synced"))
-  .catch((err) => console.error("Sync error:", err));
+    const queryInterface = dbModel.sequelize.getQueryInterface();
+    const seeders = require("./database/seeders");
+
+    for (const seederFile of Object.keys(seeders)) {
+      const seeder = seeders[seederFile];
+      await seeder.up(queryInterface, dbModel.sequelize);
+    }
+
+    console.log("Seeds completed");
+  } catch (error) {
+    console.error("Database sync error:", error);
+    process.exit(1);
+  }
+})();
 
 // Routes
 app.use("/", require("./routes/student.route"));
-app.use("/", require("./routes/login.route"));
+app.use("/", require("./routes/authentication.route"));
 app.use("/", require("./routes/user.route"));
 
 app.use(require("./middleware/error-filter.middleware"));
