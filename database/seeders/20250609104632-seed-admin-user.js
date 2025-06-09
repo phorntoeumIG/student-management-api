@@ -8,7 +8,7 @@ module.exports = {
     try {
       // Check if admin user already exists
       const existingAdmin = await queryInterface.sequelize.query(
-        `SELECT * FROM users WHERE email = 'admin@gamil.com'`,
+        `SELECT * FROM users WHERE email = 'admin@gmail.com'`,
         {
           type: queryInterface.sequelize.QueryTypes.SELECT,
         }
@@ -21,7 +21,7 @@ module.exports = {
         // Create admin user
         await queryInterface.bulkInsert("users", [
           {
-            email: "admin@gamil.com",
+            email: "admin@gmail.com",
             password: hashedPassword,
             role: "admin",
             createdAt: new Date(),
