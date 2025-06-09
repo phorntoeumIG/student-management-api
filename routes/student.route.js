@@ -12,15 +12,6 @@ const withValidation = (validator, handler) => [
   handler,
 ];
 
-// Register route
-router.post(
-  "/register",
-  ...withValidation(
-    studentValidator.createStudent,
-    studentController.createStudent
-  )
-);
-
 // CRUD Routes
 router.get(
   "/student",

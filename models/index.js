@@ -3,8 +3,8 @@ const sequelize = new Sequelize("student_management", "root", "", {
   host: "localhost",
   dialect: "mysql",
   username: "root",
-  password: "root",
-  port: 3307,
+  password: "",
+  port: 3306,
   logging: false,
 });
 
