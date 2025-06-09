@@ -1,4 +1,3 @@
-// models/users.js
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
     "users",
@@ -7,38 +6,38 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: DataTypes.INTEGER,
       },
       email: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
       password: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       role: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
         defaultValue: "user",
       },
       accessToken: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: true,
       },
       refreshToken: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         allowNull: true,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        type: DataTypes.DATE,
         defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     },
