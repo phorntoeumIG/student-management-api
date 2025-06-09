@@ -37,14 +37,14 @@ exports.createUser = async (req, res, next) => {
 
 exports.getAllUsers = async (req, res) => {
   const users = await Users.findAll({
-    attributes: { exclude: ["password"] },
+    attributes: { exclude: ["password", "refreshToken", "accessToken"] },
   });
   return res.success(users);
 };
 
 exports.getUserById = async (req, res, next) => {
   const user = await Users.findByPk(req.params.id, {
-    attributes: { exclude: ["password"] },
+    attributes: { exclude: ["password", "refreshToken", "accessToken"] },
   });
   if (!user) {
     next(new ResourceNotFound("user", req.params.id));
