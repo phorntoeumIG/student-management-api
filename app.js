@@ -21,25 +21,31 @@ app.use(require("./middleware/response.middleware"));
 // Sync database and run seeds
 (async () => {
   try {
-    await dbModel.sequelize.sync();
-    console.log("Database synced");
+    console.log("Initializing database...");
 
+    // Sync database with migrations
+    console.log("Syncing database with migrations...");
+    await dbModel.sequelize.sync({
+      force: false,
+      alter: true,
+    });
+    console.log("Database synced successfully");
+
+    // Run seeds
+    console.log("Running database seeds...");
     const queryInterface = dbModel.sequelize.getQueryInterface();
     const seeders = require("./database/seeders");
-    const migrations = require("./database/migrations");
-    for (const migrationFile of Object.keys(migrations)) {
-      const migration = migrations[migrationFile];
-      await migration.up(queryInterface, dbModel.sequelize);
-    }
 
     for (const seederFile of Object.keys(seeders)) {
+      console.log(`Running seeder: ${seederFile}`);
       const seeder = seeders[seederFile];
       await seeder.up(queryInterface, dbModel.sequelize);
     }
 
-    console.log("Seeds completed");
+    console.log("Database initialization complete");
   } catch (error) {
-    console.error("Database sync error:", error);
+    console.error("Database initialization error:", error);
+    console.error("Stack trace:", error.stack);
     process.exit(1);
   }
 })();
