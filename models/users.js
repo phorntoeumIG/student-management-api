@@ -4,31 +4,42 @@ module.exports = (sequelize, DataTypes) => {
     "users",
     {
       id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
+        allowNull: false,
         autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER,
       },
       email: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
         unique: true,
       },
       password: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
       },
       role: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
-        defaultValue: 'user'
+        defaultValue: "user",
       },
       accessToken: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: true,
       },
       refreshToken: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: true,
+      },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
       },
     },
     {

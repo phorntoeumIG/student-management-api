@@ -18,21 +18,8 @@ app.use(consoleLogger);
 app.use(require("./middleware/auth.middleware"));
 app.use(require("./middleware/response.middleware"));
 
-// Sync database and run seeds
 (async () => {
   try {
-    console.log("Initializing database...");
-
-    // Sync database with migrations
-    console.log("Syncing database with migrations...");
-    await dbModel.sequelize.sync({
-      force: false,
-      alter: true,
-    });
-    console.log("Database synced successfully");
-
-    // Run seeds
-    console.log("Running database seeds...");
     const queryInterface = dbModel.sequelize.getQueryInterface();
     const seeders = require("./database/seeders");
 
