@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
       accessToken,
     });
 
-    return res.success({
+    return res.json({
       accessToken,
       refreshToken,
     });
@@ -89,7 +89,7 @@ exports.logout = async (req, res) => {
 
     req.user = null;
 
-    return res.success({
+    return res.json({
       message: "Successfully logged out",
     });
   } catch (error) {
