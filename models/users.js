@@ -1,12 +1,12 @@
-// models/users.js
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define(
     "users",
     {
       id: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
+        allowNull: false,
         autoIncrement: true,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
       },
       email: {
         type: DataTypes.STRING,
@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      isLogout: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
       },
     },
     {
