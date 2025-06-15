@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
-const db = require("../models");
+const db = require("../../models");
 const Users = db.Users;
-const config = require("../config");
+const config = require("../config/security.config");
 
 const skipAuthRoutes = ["/auth/login"];
 const unauthorizedMessage = "Invalid or expired token";

@@ -2,7 +2,6 @@ const consoleLogger = (req, res, next) => {
   const start = Date.now();
   const requestBody = { ...req.body };
 
-  // Capture original res.write and res.end
   const oldWrite = res.write;
   const oldEnd = res.end;
 

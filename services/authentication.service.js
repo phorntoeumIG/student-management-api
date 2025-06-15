@@ -1,65 +1,43 @@
 const db = require("../models");
 const Users = db.Users;
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const config = require("../config");
-const {
-  ResourceNotFound,
-  UnauthorizedError,
-} = require("../exceptions/exception-handler");
+const { UnauthorizedError } = require("../exceptions/exception-handler");
+const { generateTokens } = require("../security/utils/jwt.utils");
 
 const authenticationService = {
-  async login(credentials) {
-    try {
-      const { username, password } = credentials;
-      const user = await Users.findOne({
-        where: {
-          email: username,
-        },
-      });
+  login: async (credentials) => {
+    const { username, password } = credentials;
+    const user = await Users.findOne({
+      where: { email: username },
+    });
 
-      if (!user) {
-        throw new UnauthorizedError("Invalid email or password");
-      }
-
-      const isValidPassword = await bcrypt.compare(password, user.password);
-      if (!isValidPassword) {
-        throw new UnauthorizedError("Invalid email or password");
-      }
-
-      const accessToken = jwt.sign(
-        {
-          id: user.id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-        },
-        config.jwt.access.secret,
-        { expiresIn: config.jwt.access.expiresIn }
-      );
-
-      const refreshToken = jwt.sign(
-        {
-          id: user.id,
-          email: user.email,
-          firstName: user.firstName,
-          lastName: user.lastName,
-        },
-        config.jwt.refresh.secret,
-        { expiresIn: config.jwt.refresh.expiresIn }
-      );
-
-      await user.update({
-        isLogout: false,
-      });
-
-      return {
-        accessToken,
-        refreshToken,
-      };
-    } catch (error) {
-      throw error;
+    if (!user) {
+      throw new UnauthorizedError("Invalid email or password");
     }
+
+    // Temporarily include password for comparison
+    const userWithPassword = await Users.findOne({
+      where: { email: username },
+    });
+
+    const isPasswordValid = await bcrypt.compare(
+      password,
+      userWithPassword.password
+    );
+    if (!isPasswordValid) {
+      throw new UnauthorizedError("Invalid email or password");
+    }
+
+    const { accessToken, refreshToken } = generateTokens(user.id);
+
+    await user.update({
+      isLogout: false,
+    });
+
+    return {
+      accessToken,
+      refreshToken,
+    };
   },
 
   // Logout user
