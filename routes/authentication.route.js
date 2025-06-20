@@ -4,9 +4,6 @@ const authenticationController = require("../controllers/authentication.controll
 const loginValidator = require("../validators/login.validator");
 const validateRequest = require("../middleware/validation.middleware");
 const auth = require("../security/middleware/auth.middleware");
-const {
-  login: loginLimiter,
-} = require("../security/middleware/rate-limit.middleware");
 
 const withValidation = (validator, handler) => [
   ...validator,
@@ -16,7 +13,6 @@ const withValidation = (validator, handler) => [
 
 router.post(
   "/auth/login",
-  loginLimiter,
   ...withValidation(
     loginValidator.loginValidator,
     authenticationController.login
